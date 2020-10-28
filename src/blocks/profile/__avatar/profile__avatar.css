@@ -7,6 +7,4 @@
   display: block;
   object-fit: cover;
   object-position: center;
-  position: relative;
-  z-index: -1;
 }
