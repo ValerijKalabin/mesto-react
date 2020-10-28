@@ -3,18 +3,24 @@ import { useState } from 'react';
 import { api } from '../utils/constants';
 import avatar from '../images/avatar.jpg';
 import errorAvatar from '../images/avatar-error.jpg';
+import Card from './Card';
 
 function Main(props) {
   const [userAvatar, setUserAvatar] = useState(avatar);
   const [userName, setUserName] = useState('User');
   const [userDescription, setUserDescription] = useState('Life`s work');
+  const [cards, setCards] = useState([]);
 
   React.useEffect(() => {
-    api.getUserProfile()
-      .then((profile) => {
+    Promise.all([
+      api.getUserProfile(),
+      api.getInitialCards()
+    ])
+      .then(([profile, places]) => {
         setUserAvatar(profile.avatar);
         setUserName(profile.name);
         setUserDescription(profile.about);
+        setCards(places);
       })
       .catch((error) => {
         setUserAvatar(errorAvatar);
@@ -39,7 +45,13 @@ function Main(props) {
             <button className="profile__add-button" type="button" onClick={props.onAddPlace}></button>
       </section>
       <section className="elements-container">
-        <ul className="elements"></ul>
+        <ul className="elements">
+          {cards.map((card, index) => (
+            <li className="element" key={card._id}>
+              <Card element={card} />
+            </li>
+          ))}
+        </ul>
       </section>
     </main>
   );
