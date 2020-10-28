@@ -27,7 +27,7 @@ function Main(props) {
         setUserName(error.status);
         setUserDescription(error.statusText);
       });
-  });
+  },[]);
 
   return (
     <main>
