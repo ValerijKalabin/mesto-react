@@ -9,6 +9,7 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(false);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -22,10 +23,15 @@ function App() {
     setIsAddPlacePopupOpen(true);
   };
 
+  function handleCardClick(element) {
+    setSelectedCard(element);
+  };
+
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setSelectedCard(false);
   };
 
   return (
@@ -36,9 +42,13 @@ function App() {
           onEditAvatar={handleEditAvatarClick}
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
+          onCardClick={handleCardClick}
         />
         <Footer />
-        <ImagePopup />
+        <ImagePopup
+          card={selectedCard}
+          onClose={closeAllPopups}
+        />
         <PopupWithForm
           name="avatar"
           title="Обновить аватар"

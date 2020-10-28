@@ -1,8 +1,12 @@
 function Card(props) {
+  function handleClick() {
+    props.onCardClick(props.element);
+  }
+
   return (
     <>
       <img className="element__image" src={props.element.link} />
-      <div className="element__substrate"></div>
+      <div className="element__substrate" onClick={handleClick}></div>
       <div className="element__text">
         <h2 className="element__title">{props.element.name}</h2>
         <div className="element__like-container">
