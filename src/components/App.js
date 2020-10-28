@@ -44,21 +44,21 @@ function App() {
           title="Обновить аватар"
           button="Сохранить"
           isOpen={isEditAvatarPopupOpen}
-          isClose={closeAllPopups}
+          onClose={closeAllPopups}
         />
         <PopupWithForm
           name="profile"
           title="Редактировать профиль"
           button="Сохранить"
           isOpen={isEditProfilePopupOpen}
-          isClose={closeAllPopups}
+          onClose={closeAllPopups}
         />
         <PopupWithForm
           name="place"
           title="Новое место"
           button="Создать"
           isOpen={isAddPlacePopupOpen}
-          isClose={closeAllPopups}
+          onClose={closeAllPopups}
         />
         <PopupWithForm
           name="confirm"
