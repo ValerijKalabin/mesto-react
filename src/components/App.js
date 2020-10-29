@@ -4,6 +4,11 @@ import Footer from './Footer';
 import ImagePopup from './ImagePopup';
 import PopupWithForm from './PopupWithForm';
 import { useState } from 'react';
+import {
+  childrenAvatarPopup,
+  childrenProfilePopup,
+  childrenPlacePopup
+} from '../utils/childrens';
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -53,44 +58,25 @@ function App() {
           name="avatar"
           title="Обновить аватар"
           submitButtonCaption="Сохранить"
+          children={childrenAvatarPopup}
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
-          children={(
-            <>
-              <input class="popup__input" type="url" name="avatarlink" placeholder="Ссылка на изображение" required />
-              <span class="popup__error" />
-            </>
-          )}
         />
         <PopupWithForm
           name="profile"
           title="Редактировать профиль"
           submitButtonCaption="Сохранить"
+          children={childrenProfilePopup}
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-          children={(
-            <>
-              <input class="popup__input" type="text" name="username" placeholder="Имя" required minlength="2" maxlength="40" />
-              <span class="popup__error" />
-              <input class="popup__input" type="text" name="description" placeholder="О себе" required minlength="2" maxlength="200" />
-              <span class="popup__error" />
-            </>
-          )}
         />
         <PopupWithForm
           name="place"
           title="Новое место"
           submitButtonCaption="Создать"
+          children={childrenPlacePopup}
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
-          children={(
-            <>
-              <input class="popup__input" type="text" name="placename" placeholder="Название" required maxlength="30" />
-              <span class="popup__error" />
-              <input class="popup__input" type="url" name="placelink" placeholder="Ссылка на картинку" required />
-              <span class="popup__error" />
-            </>
-          )}
         />
         <PopupWithForm
           name="confirm"
