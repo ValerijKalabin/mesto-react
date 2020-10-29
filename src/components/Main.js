@@ -38,11 +38,11 @@ function Main(props) {
         <div className="profile__info">
           <div className="profile__title-container">
             <h1 className="profile__title">{userName}</h1>
-            <button className="profile__edit-button" type="button" onClick={props.onEditProfile}></button>
+            <button className="profile__edit-button" type="button" onClick={props.onEditProfile} />
           </div>
           <p className="profile__description">{userDescription}</p>
         </div>
-        <button className="profile__add-button" type="button" onClick={props.onAddPlace}></button>
+        <button className="profile__add-button" type="button" onClick={props.onAddPlace} />
       </section>
       <section className="elements-container">
         <ul className="elements">
