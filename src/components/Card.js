@@ -5,7 +5,7 @@ function Card(props) {
 
   return (
     <>
-      <img className="element__image" src={props.element.link} />
+      <img className="element__image" src={props.element.link} alt={props.element.name} />
       <div className="element__substrate" onClick={handleClick} />
       <div className="element__text">
         <h2 className="element__title">{props.element.name}</h2>

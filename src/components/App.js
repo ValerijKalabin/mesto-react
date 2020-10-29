@@ -18,26 +18,26 @@ function App() {
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
-  };
+  }
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
-  };
+  }
 
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true);
-  };
+  }
 
   function handleCardClick(element) {
     setSelectedCard(element);
-  };
+  }
 
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard(false);
-  };
+  }
 
   return (
     <div className="page">
