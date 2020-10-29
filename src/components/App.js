@@ -8,7 +8,7 @@ import {
   childrenAvatarPopup,
   childrenProfilePopup,
   childrenPlacePopup
-} from '../utils/childrens';
+} from '../utils/children';
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
