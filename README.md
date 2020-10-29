@@ -1,8 +1,8 @@
-# Getting Started with Create React App
+# Project MESTO
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Choose the best place
 
-## Available Scripts
+You can add or remove your own images and put likes on other users images.
 
 In the project directory, you can run:
 
