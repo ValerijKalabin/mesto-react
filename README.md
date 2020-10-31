@@ -4,7 +4,7 @@
 
 You can add or remove your own images and put likes on other users images.
 
-View the site [https://valerijkalabin.github.io/mesto-react/]
+View the site [https://valerijkalabin.github.io/mesto-react/index.html]
 
 In the project directory, you can run:
 
