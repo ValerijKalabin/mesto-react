@@ -61,26 +61,29 @@ function App() {
           name="avatar"
           title="Обновить аватар"
           submitButtonCaption="Сохранить"
-          children={childrenAvatarPopup}
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
-        />
+        >
+          {childrenAvatarPopup}
+        </PopupWithForm>
         <PopupWithForm
           name="profile"
           title="Редактировать профиль"
           submitButtonCaption="Сохранить"
-          children={childrenProfilePopup}
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-        />
+        >
+          {childrenProfilePopup}
+        </PopupWithForm>
         <PopupWithForm
           name="place"
           title="Новое место"
           submitButtonCaption="Создать"
-          children={childrenPlacePopup}
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
-        />
+        >
+          {childrenPlacePopup}
+        </PopupWithForm>
         <PopupWithForm
           name="confirm"
           title="Вы уверены?"
