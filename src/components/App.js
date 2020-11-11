@@ -6,15 +6,11 @@ import ImagePopup from './ImagePopup';
 import PopupWithForm from './PopupWithForm';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import errorAvatar from '../images/avatar-error.jpg';
 import { useState } from 'react';
 import { api, defaultUser } from '../utils/constants';
-import {
-  childrenAvatarPopup,
-  childrenProfilePopup,
-  childrenPlacePopup
-} from '../utils/children';
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -23,6 +19,7 @@ function App() {
   const [isShowImagePopupOpen, setIsShowImagePopupOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(defaultUser);
   const [selectedCard, setSelectedCard] = useState(false);
+  const [cards, setCards] = useState([]);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -39,6 +36,13 @@ function App() {
   function handleCardClick(element) {
     setSelectedCard(element);
     setIsShowImagePopupOpen(true);
+  }
+
+  function closeAllPopups() {
+    setIsEditAvatarPopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsShowImagePopupOpen(false);
   }
 
   function handleUpdateAvatar(avatar) {
@@ -63,25 +67,55 @@ function App() {
       });
   }
 
-  function closeAllPopups() {
-    setIsEditAvatarPopupOpen(false);
-    setIsEditProfilePopupOpen(false);
-    setIsAddPlacePopupOpen(false);
-    setIsShowImagePopupOpen(false);
+  function handleAddPlace(place) {
+    api.saveNewCard(place)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+      })
+      .catch ((error) => {
+        alert(`Ошибка записи данных нового места ${error.status}`)
+      });
+  }
+
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(like => like._id === currentUser._id);
+    api.toggleLike(card._id, isLiked)
+      .then((editedCard) => {
+        const editedCards = cards.map(card => card._id === editedCard._id ? editedCard : card);
+        setCards(editedCards);
+      })
+      .catch(() => {
+        alert('Не удалось изменить лайк. Попробуйте ещё раз.');
+      });
+  }
+
+  function handleCardDelete(deletedСard) {
+    api.deleteCard(deletedСard._id)
+      .then(() => {
+        const editedCards = cards.filter(card => card._id !== deletedСard._id);
+        setCards(editedCards);
+      })
+      .catch((error) => {
+        alert(`Ошибка при удалении карточки на сервере: ${error.status}`)
+      });
   }
 
   React.useEffect(() => {
-    api.getUserInfo()
-      .then((user) => {
+    Promise.all([
+      api.getUserInfo(),
+      api.getInitialCards()
+    ])
+      .then(([user, cards]) => {
         setCurrentUser(user);
+        setCards(cards);
       })
       .catch((error) => {
-        const errorUser = {
+        setCurrentUser({
           avatar: errorAvatar,
           name: error.status,
           about: error.statusText
-        };
-        setCurrentUser(errorUser);
+        });
       });
   },[]);
 
@@ -95,6 +129,9 @@ function App() {
             onEditProfile={handleEditProfileClick}
             onAddPlace={handleAddPlaceClick}
             onCardClick={handleCardClick}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
+            cards={cards}
           />
           <Footer />
           <ImagePopup
@@ -112,15 +149,11 @@ function App() {
             onClose={closeAllPopups}
             onUpdateUser={handleUpdateUser}
           />
-          <PopupWithForm
-            name="place"
-            title="Новое место"
-            submitButtonCaption="Создать"
+          <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
-          >
-            {childrenPlacePopup}
-          </PopupWithForm>
+            onAddPlace={handleAddPlace}
+          />
           <PopupWithForm
             name="confirm"
             title="Вы уверены?"
