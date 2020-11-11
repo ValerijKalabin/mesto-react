@@ -8,6 +8,29 @@ function Main(props) {
   const currentUser = React.useContext(CurrentUserContext);
   const [cards, setCards] = useState([]);
 
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(like => like._id === currentUser._id);
+    api.toggleLike(card._id, isLiked)
+      .then((editedCard) => {
+        const editedCards = cards.map(card => card._id === editedCard._id ? editedCard : card);
+        setCards(editedCards);
+      })
+      .catch(() => {
+        alert('Не удалось изменить лайк. Попробуйте ещё раз.');
+      });
+  }
+
+  function handleCardDelete(deletedСard) {
+    api.deleteCard(deletedСard._id)
+      .then(() => {
+        const editedCards = cards.filter(card => card._id !== deletedСard._id);
+        setCards(editedCards);
+      })
+      .catch((error) => {
+        alert(`Ошибка при удалении карточки на сервере: ${error.status}`)
+      });
+  }
+
   React.useEffect(() => {
     api.getInitialCards()
       .then((cards) => {
@@ -37,7 +60,12 @@ function Main(props) {
         <ul className="elements">
           {cards.map((card, index) => (
             <li className="element" key={card._id}>
-              <Card element={card} onElementClick={props.onCardClick} />
+              <Card
+                element={card}
+                onElementClick={props.onCardClick}
+                onElementLike={handleCardLike}
+                onElementDelete={handleCardDelete}
+              />
             </li>
           ))}
         </ul>

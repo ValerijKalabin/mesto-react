@@ -10,6 +10,14 @@ function Card(props) {
     props.onElementClick(props.element);
   }
 
+  function handleLikeClick() {
+    props.onElementLike(props.element);
+  }
+
+  function handleDeleteClick() {
+    props.onElementDelete(props.element);
+  }
+
   return (
     <>
       <img className="element__image" src={props.element.link} alt={props.element.name} />
@@ -17,11 +25,11 @@ function Card(props) {
       <div className="element__text">
         <h2 className="element__title">{props.element.name}</h2>
         <div className="element__like-container">
-          <button className={`element__like ${isLiked && 'element__like_active'}`} type="button" />
+          <button className={`element__like ${isLiked && 'element__like_active'}`} type="button" onClick={handleLikeClick} />
           <p className="element__like-count">{props.element.likes.length}</p>
         </div>
       </div>
-      <button className={`element__trash ${isOwn && 'element__trash_visible'}`} type="button" />
+      <button className={`element__trash ${isOwn && 'element__trash_visible'}`} type="button" onClick={handleDeleteClick} />
     </>
   );
 }
