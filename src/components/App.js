@@ -4,6 +4,8 @@ import Main from './Main';
 import Footer from './Footer';
 import ImagePopup from './ImagePopup';
 import PopupWithForm from './PopupWithForm';
+import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import errorAvatar from '../images/avatar-error.jpg';
 import { useState } from 'react';
@@ -37,6 +39,28 @@ function App() {
   function handleCardClick(element) {
     setSelectedCard(element);
     setIsShowImagePopupOpen(true);
+  }
+
+  function handleUpdateAvatar(avatar) {
+    api.saveUserAvatar(avatar)
+      .then((profile) => {
+        setCurrentUser(profile);
+        closeAllPopups();
+      })
+      .catch ((error) => {
+        alert(`Ошибка записи данных пользователя ${error.status}`);
+      });
+  }
+
+  function handleUpdateUser(profile) {
+    api.saveUserInfo(profile)
+      .then((profile) => {
+        setCurrentUser(profile);
+        closeAllPopups();
+      })
+      .catch ((error) => {
+        alert(`Ошибка записи данных пользователя ${error.status}`);
+      });
   }
 
   function closeAllPopups() {
@@ -78,24 +102,16 @@ function App() {
             isOpen={isShowImagePopupOpen}
             onClose={closeAllPopups}
           />
-          <PopupWithForm
-            name="avatar"
-            title="Обновить аватар"
-            submitButtonCaption="Сохранить"
+          <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
-          >
-            {childrenAvatarPopup}
-          </PopupWithForm>
-          <PopupWithForm
-            name="profile"
-            title="Редактировать профиль"
-            submitButtonCaption="Сохранить"
+            onUpdateAvatar={handleUpdateAvatar}
+          />
+          <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
-          >
-            {childrenProfilePopup}
-          </PopupWithForm>
+            onUpdateUser={handleUpdateUser}
+          />
           <PopupWithForm
             name="place"
             title="Новое место"
