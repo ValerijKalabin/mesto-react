@@ -1,4 +1,5 @@
 import Api from './Api';
+import avatar from '../images/avatar.jpg';
 
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-16',
@@ -8,4 +9,10 @@ const api = new Api({
   }
 });
 
-export { api };
+const defaultUser = {
+  avatar: avatar,
+  name: 'User',
+  about: 'Life`s work'
+};
+
+export { api, defaultUser };
