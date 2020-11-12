@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import PopupWithForm from './PopupWithForm';
 
-function AddPlacePopup(props) {
+function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
   const [name, setName] = useState('');
   const [link, setLink] = useState('');
 
@@ -16,21 +16,21 @@ function AddPlacePopup(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    props.onAddPlace({ name, link });
+    onAddPlace({ name, link });
   }
 
   React.useEffect(() => {
     setName('');
     setLink('');
-  }, [props.isOpen]);
+  }, [isOpen]);
 
   return (
     <PopupWithForm
       name="place"
       title="Новое место"
       submitButtonCaption="Создать"
-      isOpen={props.isOpen}
-      onClose={props.onClose}
+      isOpen={isOpen}
+      onClose={onClose}
       onSubmit={handleSubmit}
     >
       <input

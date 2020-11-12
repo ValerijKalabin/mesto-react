@@ -1,32 +1,32 @@
 import React from 'react';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
-function Card(props) {
+function Card({ element, onElementClick, onElementLike, onElementDelete }) {
   const currentUser = React.useContext(CurrentUserContext);
-  const isOwn = props.element.owner._id === currentUser._id;
-  const isLiked = props.element.likes.some(like => like._id === currentUser._id);
+  const isOwn = element.owner._id === currentUser._id;
+  const isLiked = element.likes.some(like => like._id === currentUser._id);
 
   function handleClick() {
-    props.onElementClick(props.element);
+    onElementClick(element);
   }
 
   function handleLikeClick() {
-    props.onElementLike(props.element);
+    onElementLike(element);
   }
 
   function handleDeleteClick() {
-    props.onElementDelete(props.element);
+    onElementDelete(element);
   }
 
   return (
     <>
-      <img className="element__image" src={props.element.link} alt={props.element.name} />
+      <img className="element__image" src={element.link} alt={element.name} />
       <div className="element__substrate" onClick={handleClick} />
       <div className="element__text">
-        <h2 className="element__title">{props.element.name}</h2>
+        <h2 className="element__title">{element.name}</h2>
         <div className="element__like-container">
           <button className={`element__like ${isLiked && 'element__like_active'}`} type="button" onClick={handleLikeClick} />
-          <p className="element__like-count">{props.element.likes.length}</p>
+          <p className="element__like-count">{element.likes.length}</p>
         </div>
       </div>
       <button className={`element__trash ${isOwn && 'element__trash_visible'}`} type="button" onClick={handleDeleteClick} />
