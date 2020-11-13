@@ -16,12 +16,15 @@ function App() {
   const [avatarSubmitButtonCaption, setAvatarSubmitButtonCaption] = useState('Сохранить');
   const [profileSubmitButtonCaption, setProfileSubmitButtonCaption] = useState('Сохранить');
   const [placeSubmitButtonCaption, setPlaceSubmitButtonCaption] = useState('Создать');
+  const [confirmSubmitButtonCaption, setConfirmSubmitButtonCaption] = useState('Да');
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] = useState(false);
   const [isShowImagePopupOpen, setIsShowImagePopupOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(defaultUser);
   const [selectedCard, setSelectedCard] = useState(false);
+  const [deletedСard, setDeletedСard] = useState(false);
   const [cards, setCards] = useState([]);
 
   function handleEditAvatarClick() {
@@ -45,6 +48,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setIsConfirmDeletePopupOpen(false);
     setIsShowImagePopupOpen(false);
   }
 
@@ -53,7 +57,7 @@ function App() {
     api.saveUserAvatar(avatar)
       .then((profile) => {
         setCurrentUser(profile);
-        closeAllPopups();
+        setIsEditAvatarPopupOpen(false);
       })
       .catch ((error) => {
         alert(`Ошибка записи данных пользователя ${error.status}`);
@@ -68,7 +72,7 @@ function App() {
     api.saveUserInfo(profile)
       .then((profile) => {
         setCurrentUser(profile);
-        closeAllPopups();
+        setIsEditProfilePopupOpen(false);
       })
       .catch ((error) => {
         alert(`Ошибка записи данных пользователя ${error.status}`);
@@ -83,7 +87,7 @@ function App() {
     api.saveNewCard(place)
       .then((newCard) => {
         setCards([newCard, ...cards]);
-        closeAllPopups();
+        setIsAddPlacePopupOpen(false);
       })
       .catch ((error) => {
         alert(`Ошибка записи данных нового места ${error.status}`)
@@ -105,14 +109,25 @@ function App() {
       });
   }
 
-  function handleCardDelete(deletedСard) {
+  function handleConfirmCardDelete(element) {
+    setDeletedСard(element);
+    setIsConfirmDeletePopupOpen(true);
+  }
+
+  function handleCardDelete(event) {
+    event.preventDefault();
+    setConfirmSubmitButtonCaption('Удаление...');
     api.deleteCard(deletedСard._id)
       .then(() => {
         const editedCards = cards.filter(card => card._id !== deletedСard._id);
         setCards(editedCards);
+        setIsConfirmDeletePopupOpen(false);
       })
       .catch((error) => {
         alert(`Ошибка при удалении карточки на сервере: ${error.status}`)
+      })
+      .finally(() => {
+        setConfirmSubmitButtonCaption('Да');
       });
   }
 
@@ -145,7 +160,7 @@ function App() {
             onAddPlace={handleAddPlaceClick}
             onCardClick={handleCardClick}
             onCardLike={handleCardLike}
-            onCardDelete={handleCardDelete}
+            onCardDelete={handleConfirmCardDelete}
             cards={cards}
           />
           <Footer />
@@ -175,8 +190,10 @@ function App() {
           <PopupWithForm
             name="confirm"
             title="Вы уверены?"
-            submitButtonCaption="Да"
-            isOpen={false}
+            isOpen={isConfirmDeletePopupOpen}
+            onClose={closeAllPopups}
+            onSubmit={handleCardDelete}
+            submitButtonCaption={confirmSubmitButtonCaption}
           />
         </div>
       </div>
