@@ -39,9 +39,14 @@ function App() {
     setIsAddPlacePopupOpen(true);
   }
 
-  function handleCardClick(element) {
+  function handleCardShowClick(element) {
     setSelectedCard(element);
     setIsShowImagePopupOpen(true);
+  }
+
+  function handleCardDeleteClick(element) {
+    setDeletedСard(element);
+    setIsConfirmDeletePopupOpen(true);
   }
 
   function closeAllPopups() {
@@ -109,11 +114,6 @@ function App() {
       });
   }
 
-  function handleConfirmCardDelete(element) {
-    setDeletedСard(element);
-    setIsConfirmDeletePopupOpen(true);
-  }
-
   function handleCardDelete(event) {
     event.preventDefault();
     setConfirmSubmitButtonCaption('Удаление...');
@@ -158,9 +158,9 @@ function App() {
             onEditAvatar={handleEditAvatarClick}
             onEditProfile={handleEditProfileClick}
             onAddPlace={handleAddPlaceClick}
-            onCardClick={handleCardClick}
+            onCardClick={handleCardShowClick}
             onCardLike={handleCardLike}
-            onCardDelete={handleConfirmCardDelete}
+            onCardDelete={handleCardDeleteClick}
             cards={cards}
           />
           <Footer />
