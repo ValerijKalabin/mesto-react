@@ -3,7 +3,7 @@ import { useState } from 'react';
 import PopupWithForm from './PopupWithForm';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
-function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
+function EditProfilePopup({ isOpen, onClose, onUpdateUser, submitButtonCaption }) {
   const currentUser = React.useContext(CurrentUserContext);
 
   const [username, setUsername] = useState('');
@@ -46,7 +46,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
     <PopupWithForm
       name="profile"
       title="Редактировать профиль"
-      submitButtonCaption="Сохранить"
+      submitButtonCaption={submitButtonCaption}
       isDisabledSubmitButton={!isValidUsername || !isValidDescription}
       isOpen={isOpen}
       onClose={onClose}

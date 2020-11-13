@@ -1,7 +1,7 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
 
-function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
+function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, submitButtonCaption }) {
   const refInput = React.useRef();
   const [errorInput, setErrorInput] = React.useState('');
   const [isValidInput, setValidityInput] = React.useState(false);
@@ -30,7 +30,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
     <PopupWithForm
       name="avatar"
       title="Обновить аватар"
-      submitButtonCaption="Сохранить"
+      submitButtonCaption={submitButtonCaption}
       isDisabledSubmitButton={!isValidInput}
       isOpen={isOpen}
       onClose={onClose}

@@ -13,6 +13,9 @@ import { useState } from 'react';
 import { api, defaultUser } from '../utils/constants';
 
 function App() {
+  const [avatarSubmitButtonCaption, setAvatarSubmitButtonCaption] = useState('Сохранить');
+  const [profileSubmitButtonCaption, setProfileSubmitButtonCaption] = useState('Сохранить');
+  const [placeSubmitButtonCaption, setPlaceSubmitButtonCaption] = useState('Создать');
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
@@ -46,6 +49,7 @@ function App() {
   }
 
   function handleUpdateAvatar(avatar) {
+    setAvatarSubmitButtonCaption('Сохранение...');
     api.saveUserAvatar(avatar)
       .then((profile) => {
         setCurrentUser(profile);
@@ -53,10 +57,14 @@ function App() {
       })
       .catch ((error) => {
         alert(`Ошибка записи данных пользователя ${error.status}`);
+      })
+      .finally(() => {
+        setAvatarSubmitButtonCaption('Сохранить');
       });
   }
 
   function handleUpdateUser(profile) {
+    setProfileSubmitButtonCaption('Сохранение...');
     api.saveUserInfo(profile)
       .then((profile) => {
         setCurrentUser(profile);
@@ -64,10 +72,14 @@ function App() {
       })
       .catch ((error) => {
         alert(`Ошибка записи данных пользователя ${error.status}`);
+      })
+      .finally(() => {
+        setProfileSubmitButtonCaption('Сохранить');
       });
   }
 
   function handleAddPlace(place) {
+    setPlaceSubmitButtonCaption('Сохранение...');
     api.saveNewCard(place)
       .then((newCard) => {
         setCards([newCard, ...cards]);
@@ -75,6 +87,9 @@ function App() {
       })
       .catch ((error) => {
         alert(`Ошибка записи данных нового места ${error.status}`)
+      })
+      .finally(() => {
+        setPlaceSubmitButtonCaption('Создать');
       });
   }
 
@@ -143,16 +158,19 @@ function App() {
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
             onUpdateAvatar={handleUpdateAvatar}
+            submitButtonCaption={avatarSubmitButtonCaption}
           />
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
             onUpdateUser={handleUpdateUser}
+            submitButtonCaption={profileSubmitButtonCaption}
           />
           <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
             onAddPlace={handleAddPlace}
+            submitButtonCaption={placeSubmitButtonCaption}
           />
           <PopupWithForm
             name="confirm"

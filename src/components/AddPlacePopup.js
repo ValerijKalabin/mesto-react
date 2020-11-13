@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import PopupWithForm from './PopupWithForm';
 
-function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
+function AddPlacePopup({ isOpen, onClose, onAddPlace, submitButtonCaption }) {
   const [name, setName] = useState('');
   const [errorName, setErrorName] = useState('');
   const [isValidName, setValidityName] = useState(false);
@@ -43,7 +43,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
     <PopupWithForm
       name="place"
       title="Новое место"
-      submitButtonCaption="Создать"
+      submitButtonCaption={submitButtonCaption}
       isDisabledSubmitButton={!isValidName || !isValidLink}
       isOpen={isOpen}
       onClose={onClose}
