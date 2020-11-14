@@ -49,12 +49,14 @@ function App() {
     setIsConfirmDeletePopupOpen(true);
   }
 
-  function closeAllPopups() {
-    setIsEditAvatarPopupOpen(false);
-    setIsEditProfilePopupOpen(false);
-    setIsAddPlacePopupOpen(false);
-    setIsConfirmDeletePopupOpen(false);
-    setIsShowImagePopupOpen(false);
+  function closeAllPopups(event) {
+    if(event.target === event.currentTarget) {
+      setIsEditAvatarPopupOpen(false);
+      setIsEditProfilePopupOpen(false);
+      setIsAddPlacePopupOpen(false);
+      setIsConfirmDeletePopupOpen(false);
+      setIsShowImagePopupOpen(false);
+    }
   }
 
   function handleUpdateAvatar(avatar) {
